@@ -1,4 +1,6 @@
+const { response } = require('express');
 const inquirer = require('inquirer');
+const { default: Choice } = require('inquirer/lib/objects/choice');
 const pgp = require('pg-promise')({
   // Initialization Options
 });
@@ -25,8 +27,60 @@ const getRoles = async () => {
   const data = await db.any("SELECT role.id, role.title, role.salary, department.dep_name FROM role JOIN department ON role.department_id = department.id");
   console.table(data);
 }
-// Calling the functions to see results
-getDepartments();
-getEmployees();
-getRoles();
 
+const addEmployeeQuestions = [
+  {
+    type: "input",
+    message: "What is the empolyees first name?",
+    name: "firstName",
+  },
+  {
+    type: "input",
+    message: "What is the empolyees last name?",
+    name: "lastName",
+  },
+  {
+    type: "input",
+    message: "What is the empolyees role id?",
+    name: "roleId",
+  },
+  {
+    type: "input",
+    message: "What is the empolyees department id?",
+    name: "departmentId",
+  }
+]
+const viewTables = [
+  {
+    type: "list",
+    message: "What would you like to view?",
+    name: "tableView",
+    choices: ["View employees", "View departments", "View roles"],
+}
+]
+inquirer
+  .prompt(viewTables)
+  .then((response) => {
+switch (response.viewTable) {
+  case "View employees":
+    getEmployees();
+    break;
+  case "View departments":
+    getDepartments();
+    break;
+  case "View roles":
+    getRoles();
+    break;
+
+  default:
+    break;
+}    
+  }
+  )
+  
+
+inquirer
+  .prompt(addEmployeeQuestions)
+  .then((response) =>
+    console.log(`${response.firstName}, ${response.lastName}, ${response.roleId}, ${response.departmentId}`)
+  );
