@@ -6,6 +6,8 @@ const pgp = require('pg-promise')({
 const cn = 'postgres://postgres:password1@localhost:5432/employees_db';
 // Creating a new database instance from the connection details:
 const db = pgp(cn);
+
+ // Added new lines so the tables aren't covered by inquirer prompt
 function displayData(data) {
     console.log('\n');
     console.table(data);
@@ -22,7 +24,6 @@ const getEmployees = async () => {
     JOIN role ON employee.role_id = role.id 
     JOIN department ON role.department_id = department.id 
     JOIN employee AS manager ON employee.manager_id = manager.id`);
-    // Added new lines so the tables aren't covered by inquirer prompt
     displayData(data);
 };
 // Function to get departments from db.
@@ -37,7 +38,38 @@ const getRoles = async () => {
     const data = await db.any("SELECT role.id, role.title, role.salary, department.dep_name FROM role JOIN department ON role.department_id = department.id");
     displayData(data);
 };
+const getEmployeesByDept = async () => {
+    // Selects only id, first name, last name, title, and salary, and manager. Joins the values of title and salary with employee from role.
+    const data = await db.any(`SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary, department.dep_name, manager.first_name AS manager_fn, manager.last_name AS manager_ln
+    FROM employee 
+    JOIN role ON employee.role_id = role.id 
+    JOIN department ON role.department_id = department.id 
+    JOIN employee AS manager ON employee.manager_id = manager.id
+    ORDER BY role.department_id`);
+    displayData(data);
+};
+const getEmployeesByManager = async () => {
+    // Selects only id, first name, last name, title, and salary, and manager. Joins the values of title and salary with employee from role.
+    const data = await db.any(`SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary, department.dep_name, manager.first_name AS manager_fn, manager.last_name AS manager_ln
+    FROM employee 
+    JOIN role ON employee.role_id = role.id 
+    JOIN department ON role.department_id = department.id 
+    JOIN employee AS manager ON employee.manager_id = manager.id
+    ORDER BY employee.manager_id`);
+    displayData(data);
+};
+const getEmployeesByRole = async () => {
+    // Selects only id, first name, last name, title, and salary, and manager. Joins the values of title and salary with employee from role.
+    const data = await db.any(`SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary, department.dep_name, manager.first_name AS manager_fn, manager.last_name AS manager_ln
+    FROM employee 
+    JOIN role ON employee.role_id = role.id 
+    JOIN department ON role.department_id = department.id 
+    JOIN employee AS manager ON employee.manager_id = manager.id
+    ORDER BY employee.role_id`);
+    displayData(data);
+};
+
 
 module.exports = {
-    getEmployees, getDepartments, getRoles, pgp, cn, db
+    getEmployees, getDepartments, getRoles, getEmployeesByDept, getEmployeesByManager, getEmployeesByRole, pgp, cn, db
 }
