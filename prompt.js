@@ -1,6 +1,6 @@
 // Separate file to handle inquirer
 const inquirer = require('inquirer');
-const { getEmployees, getDepartments, getRoles } = require('./getFunctions');
+const { getEmployees, getDepartments, getRoles, pgp, cn, db} = require('./getFunctions');
 // Variables for all the prompts for inquirer
 const menuPrompts = [
   {
@@ -89,6 +89,8 @@ const menuPrompts = [
         case "Quit":
           console.log("Exit terminal")
         default:
+          console.error('Pick a valid option.')
+          startMenu();
           break;
       }
     }
@@ -99,21 +101,24 @@ const menuPrompts = [
     await inquirer
           .prompt(addDepartmentPrompts)
           .then((result) =>
-            console.log(`${result.dep_name}`));
+            db.any(`INSERT INTO department (dep_name)
+          VALUES ('${result.dep_name}');`));
           startMenu();
   }
   const addRole = async () => {
     await inquirer
           .prompt(addRolePrompts)
           .then((result) => 
-          console.log(`${result.title}, ${result.salary}, ${result.department}`));
+          db.any(`INSERT INTO role (title, salary, department_id)
+          VALUES ('${result.title}', ${result.salary}, ${result.department});`));
           startMenu();
   }
   const addEmployee = async () => {
     await inquirer
           .prompt(addEmployeePrompts)
           .then((result) =>
-            console.log(`${result.firstName}, ${result.lastName}, ${result.roleId}, ${result.departmentId}`));
+            db.any(`INSERT INTO employee (first_name, last_name, role_id, manager_id)
+          VALUES ('${result.firstName}', '${result.lastName}', ${result.roleId}, ${result.departmentId});`));
           startMenu();
   }
   // Exports functions to other javascript files

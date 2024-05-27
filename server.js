@@ -3,4 +3,9 @@ const { getEmployees, getDepartments, getRoles } = require('./getFunctions.js');
 const inquirer = require('inquirer');
 const { default: Choice } = require('inquirer/lib/objects/choice');
 
-startMenu();
+
+try {
+  startMenu();
+} catch (error) {
+  console.error(error);
+}

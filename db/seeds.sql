@@ -13,11 +13,11 @@ VALUES
 -- Data for the role. (id is included with PRIMARY KEY in schema.sql)
 INSERT INTO role (title, salary, department_id)
 VALUES 
-('manager', 1500000, 1),
-('pitcher', 20000000, 2),
-('catcher', 15000000, 3),
-('infield', 15000000, 3),
-('outfield', 12000000, 3);
+('manager', 100000, 1),
+('pitcher', 40000000, 2),
+('catcher', 23000000, 3),
+('infield', 25000000, 3),
+('outfield', 20000000, 3);
 -- Data for the employees. (id is included with PRIMARY KEY in schema.sql)
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
 VALUES 
