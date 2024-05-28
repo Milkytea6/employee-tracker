@@ -22,7 +22,7 @@ VALUES
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
 VALUES 
 ('Rob', 'Thompson', 1, 1),
-('Caleb', 'Cotham', 1, 1)
+('Caleb', 'Cotham', 1, 1),
 ('Kyle', 'Schwarber', 5, 1),
 ('J.T.', 'Realmuto', 3, 1),
 ('Bryce', 'Harper', 4, 1),
@@ -43,7 +43,4 @@ EXCEPTION
         ROLLBACK; -- Explicitly roll back changes in case of error
 END $$;
 
--- SELECT * FROM department;
--- SELECT * FROM role;
--- SELECT * FROM employee;
 

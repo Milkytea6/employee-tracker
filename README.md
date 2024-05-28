@@ -46,3 +46,5 @@
   chrisgcpg@gmail.com
   ## Github Repository 
   [Employee Tracker Repository](https://github.com/Milkytea6/employee-tracker)
+  ## Video Demonstration
+  [Link to Employee Tracker Demostration](https://drive.google.com/file/d/11v0_9WZTsMSIUDdAINaRUPKNRxZFKXiU/view)
