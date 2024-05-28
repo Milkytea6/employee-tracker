@@ -1,13 +1,13 @@
 // Separate file to handle inquirer
 const inquirer = require('inquirer');
-const { getEmployees, getDepartments, getRoles, getEmployeesByDept, getEmployeesByManager, getEmployeesByRole, pgp, cn, db } = require('./getFunctions');
+const { getEmployees, getDepartments, getRoles, getEmployeesByDept, getEmployeesByManager, getEmployeesByRole, getAverageSalary, pgp, cn, db } = require('./getFunctions');
 // Variables for all the prompts for inquirer
 const menuPrompts = [
   {
     type: "list",
     message: "What would you like to do?",
     name: "menu",
-    choices: ["View Employees", "View Employees by Department", "View Employees by Manager", "View Employees by Role", "View Departments", "View Roles",  "Add Employee",
+    choices: ["View Employees", "View Employees by Department", "View Employees by Manager", "View Employees by Role", "View Departments", "View Roles", "View Average Salary", "Add Employee",
       "Add Department", "Add Role", "Update Role", "Update Manager", "Quit"],
   }
 ]
@@ -113,6 +113,11 @@ const startMenu = async () => {
           getEmployeesByRole();
           startMenu();
           break;
+        case "View Average Salary":
+          getAverageSalary();
+          startMenu();
+          console.log('View Average Salary case ran')
+          break;
         case "Add Employee":
           addEmployee();
           break;
@@ -144,24 +149,30 @@ const addDepartment = async () => {
     await inquirer
       .prompt(addDepartmentPrompts)
       .then((result) =>
-        db.any(`INSERT INTO department (dep_name)
-            VALUES ('${result.dep_name}');`));
+        db.any(`
+      INSERT INTO department (dep_name)
+      VALUES ('${result.dep_name}');
+      `));
     startMenu();
   }
   const addRole = async () => {
     await inquirer
       .prompt(addRolePrompts)
       .then((result) =>
-        db.any(`INSERT INTO role (title, salary, department_id)
-            VALUES ('${result.title}', ${result.salary}, ${result.department});`));
+        db.any(`
+      INSERT INTO role (title, salary, department_id)
+      VALUES ('${result.title}', ${result.salary}, ${result.department});
+      `));
     startMenu();
   }
   const addEmployee = async () => {
     await inquirer
       .prompt(addEmployeePrompts)
       .then((result) =>
-        db.any(`INSERT INTO employee (first_name, last_name, role_id, manager_id)
-            VALUES ('${result.firstName}', '${result.lastName}', ${result.roleId}, ${result.managerId});`));
+        db.any(`
+      INSERT INTO employee (first_name, last_name, role_id, manager_id)
+      VALUES ('${result.firstName}', '${result.lastName}', ${result.roleId}, ${result.managerId});
+      `));
     startMenu();
   }
   // Function to find an employee by id and update the role_id
@@ -169,14 +180,22 @@ const addDepartment = async () => {
     await inquirer
       .prompt(updateEmployeeRolePrompts)
       .then((result) =>
-      db.any(`UPDATE employee SET role_id = ${result.roleId} WHERE employee.id = ${result.employeeId}`));
+      db.any(`
+      UPDATE employee 
+      SET role_id = ${result.roleId} 
+      WHERE employee.id = ${result.employeeId}
+      `));
     startMenu();
   }
   const updateManager = async () => {
     await inquirer
       .prompt(updateManagerPrompts)
       .then((result) =>
-      db.any(`UPDATE employee SET manager_id = ${result.managerId} WHERE employee.id = ${result.employeeId}`));
+      db.any(`
+      UPDATE employee 
+      SET manager_id = ${result.managerId} 
+      WHERE employee.id = ${result.employeeId}
+      `));
     startMenu();
   }
 

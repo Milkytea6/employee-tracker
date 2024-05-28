@@ -22,6 +22,7 @@ VALUES
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
 VALUES 
 ('Rob', 'Thompson', 1, 1),
+('Caleb', 'Cotham', 1, 1)
 ('Kyle', 'Schwarber', 5, 1),
 ('J.T.', 'Realmuto', 3, 1),
 ('Bryce', 'Harper', 4, 1),
@@ -31,7 +32,8 @@ VALUES
 ('Edmundo', 'Sosa', 4, 1),
 ('Brandon', 'Marsh', 5, 1),
 ('Johan', 'Rojas', 5, 1),
-('Zach', 'Wheeler', 2, 1);
+('Aaron', 'Nola', 2, 2),
+('Zach', 'Wheeler', 2, 2);
 
 RAISE NOTICE 'Department, role, and employee values added to tables';
 
