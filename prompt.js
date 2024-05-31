@@ -1,6 +1,6 @@
 // Separate file to handle inquirer
 const inquirer = require('inquirer');
-const { getEmployees, getDepartments, getRoles, getEmployeesByDept, getEmployeesByManager, getEmployeesByRole, getAverageSalary, pgp, cn, db } = require('./getFunctions');
+const { getEmployees, getDepartments, getRoles, getEmployeesByDept, getEmployeesByManager, getEmployeesByRole, getAverageSalary, db } = require('./getFunctions');
 // Variables for all the prompts for inquirer
 const menuPrompts = [
   {
